@@ -74,14 +74,14 @@ dns:
 pr: &select {type: select, proxies: [Direct], include-all: true, filter: "新加坡|坡|狮城|SG|Singapore|港|HK|(?i)Hong|日|JP|(?i)Japan|台|新北|彰化|TW|Taiwan|美|US|(?i)States|America"}
 proxy-groups:
   - {name: 🚀 Proxies, type: select, proxies: [🇭🇰 HongKong, 🇯🇵 Japan, 🇸🇬 Singapore, 🇺🇲 UnitedStates], include-all: true}
-  - {name: Binance, type: select, proxies: [🇭🇰 HongKong, 🇯🇵 Japan, 🇸🇬 Singapore, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Binance.png"}
-  - {name: YouTube, type: select, proxies: [🚀 Proxies], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/YouTube.png"}
-  - {name: Apple, type: select, proxies: [Direct, 🚀 Proxies], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Apple.png"}
-  - {name: Steam, type: select, proxies: [🚀 Proxies, Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Steam.png"}
-  - {name: Spotify, << : *select, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Spotify.png"}
-  - {name: Bilibili, type: select, proxies: [Direct], include-all: true, filter: "台|新北|彰化|TW|Taiwan", icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/bilibili.png"}
+  - {name: Binance, type: select, proxies: [🇭🇰 HongKong, 🇯🇵 Japan, 🇸🇬 Singapore, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Binance.png"}
+  - {name: YouTube, type: select, proxies: [🚀 Proxies], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/YouTube.png"}
+  - {name: Apple, type: select, proxies: [Direct, 🚀 Proxies], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Apple.png"}
+  - {name: Steam, type: select, proxies: [🚀 Proxies, Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Steam.png"}
+  - {name: Spotify, << : *select, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Spotify.png"}
+  - {name: Bilibili, type: select, proxies: [Direct], include-all: true, filter: "台|新北|彰化|TW|Taiwan", icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bilibili.png"}
   - {name: 🎞️ PikPak, << : *select}
-  - {name: Game, type: select, proxies: [🚀 Proxies, Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Game.png"}
+  - {name: Game, type: select, proxies: [🚀 Proxies, Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Game.png"}
   - {name: 🅱️ Bybit, << : *select}
   - {name: 🎯 Direct, type: select, proxies: [Direct, 🚀 Proxies]}
   - {name: 🐟 Others, type: select, proxies: [🚀 Proxies, Direct]}
