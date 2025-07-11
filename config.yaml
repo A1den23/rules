@@ -1,7 +1,7 @@
 
 proxy-providers:
   FlowerCloud:
-    url: "你的订阅链接"
+    url: ""
     type: http
     interval: 86400
     health-check:
@@ -71,17 +71,17 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
  
-pr: &select {type: select, proxies: [], include-all: true, filter: "新加坡|坡|狮城|SG|Singapore|港|HK|(?i)Hong|日|JP|(?i)Japan|台|新北|彰化|TW|Taiwan|美|US|(?i)States|America"}
+pr: &select {type: select, proxies: [Direct], include-all: true, filter: "新加坡|坡|狮城|SG|Singapore|港|HK|(?i)Hong|日|JP|(?i)Japan|台|新北|彰化|TW|Taiwan|美|US|(?i)States|America"}
 proxy-groups:
   - {name: 🚀 Proxies, type: select, proxies: [🇭🇰 HongKong, 🇯🇵 Japan, 🇸🇬 Singapore, 🇺🇲 UnitedStates], include-all: true}
-  - {name: 🪙 Binance, type: select, proxies: [🇭🇰 HongKong, 🇯🇵 Japan, 🇸🇬 Singapore, 🇺🇲 UnitedStates], include-all: true}
-  - {name: 📹 YouTube, type: select, proxies: [🚀 Proxies], include-all: true}
-  - {name: 🍎 Apple, type: select, proxies: [Direct, 🚀 Proxies]}
-  - {name: 🎮 Steam, type: select, proxies: [🚀 Proxies, Direct]}
-  - {name: 🎵 Spotify, << : *select}
-  - {name: 📺 Bilibili, type: select, proxies: [Direct], include-all: true, filter: "台|新北|彰化|TW|Taiwan"}
+  - {name: Binance, type: select, proxies: [🇭🇰 HongKong, 🇯🇵 Japan, 🇸🇬 Singapore, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Binance.png"}
+  - {name: YouTube, type: select, proxies: [🚀 Proxies], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/YouTube.png"}
+  - {name: Apple, type: select, proxies: [Direct, 🚀 Proxies], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Apple.png"}
+  - {name: Steam, type: select, proxies: [🚀 Proxies, Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Steam.png"}
+  - {name: Spotify, << : *select, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Spotify.png"}
+  - {name: Bilibili, type: select, proxies: [Direct], include-all: true, filter: "台|新北|彰化|TW|Taiwan", icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/bilibili.png"}
   - {name: 🎞️ PikPak, << : *select}
-  - {name: 🎮 Game, type: select, proxies: [🚀 Proxies]}
+  - {name: Game, type: select, proxies: [🚀 Proxies, Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Game.png"}
   - {name: 🅱️ Bybit, << : *select}
   - {name: 🎯 Direct, type: select, proxies: [Direct, 🚀 Proxies]}
   - {name: 🐟 Others, type: select, proxies: [🚀 Proxies, Direct]}
@@ -99,18 +99,20 @@ rules:
   - RULE-SET, private_domain,🎯 Direct
   - RULE-SET, privatetracker,🎯 Direct
   - RULE-SET, steam_cn_domain,🎯 Direct
-  - RULE-SET, binance_domain,🪙 Binance
-  - RULE-SET, apple_cn_domain,🍎 Apple
-  - RULE-SET, apple_domain,🍎 Apple
-  - RULE-SET, steam_domain,🎮 Steam
-  - RULE-SET, youtube_domain,📹 YouTube
-  - RULE-SET, spotify_domain,🎵 Spotify
-  - RULE-SET, bilibili_domain,📺 Bilibili
-  - RULE-SET, bilibili_intl_domain,📺 Bilibili
+  - RULE-SET, binance_domain,Binance
+  - RULE-SET, apple_cn_domain,Apple
+  - RULE-SET, apple_domain,Apple
+  - RULE-SET, steam_domain,Steam
+  - RULE-SET, youtube_domain,YouTube
+  - RULE-SET, spotify_domain,Spotify
+  - RULE-SET, bilibili_domain,Bilibili
+  - RULE-SET, bilibili_intl_domain,Bilibili
   - RULE-SET, pikpak_domain,🎞️ PikPak
-  - RULE-SET, game,🎮 Game
+  - RULE-SET, game,Game
   - RULE-SET, bybit_domain,🅱️ Bybit
   - RULE-SET, proxy_domain,🚀 Proxies
+  - RULE-SET, google_ip,🚀 Proxies,no-resolve
+  - RULE-SET, telegram_ip,🚀 Proxies,no-resolve
   - RULE-SET, cn_domain,🎯 Direct
   - RULE-SET, cn_ip,🎯 Direct
   - MATCH,🐟 Others
@@ -145,3 +147,5 @@ rule-providers:
   game: { <<: *class, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.list"}
 
   cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
+  google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
+  telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
