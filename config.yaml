@@ -84,7 +84,7 @@ proxy-groups:
   - {name: Bilibili, type: select, proxies: [🎯 Direct, 🇨🇳 Taiwan], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bilibili.png"}
   - {name: 🎞️ PikPak, << : *select}
   - {name: Game, type: select, proxies: [🚀 Proxies, 🎯 Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Game.png"}
-  - {name: 🅱️ Bybit, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates]}
+  - {name: CEX, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bitcoin.png"}
   - {name: 🎯 Direct, type: select, proxies: [Direct, 🚀 Proxies]}
   - {name: 🐟 Others, type: select, proxies: [🚀 Proxies, 🎯 Direct]}
   - {name: 🇭🇰 HongKong, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|香港|HK|(?i)Hong))^((?!(台|日|韩|新|美)).)*$"}
@@ -110,7 +110,9 @@ rules:
   - RULE-SET, bilibili_intl_domain,Bilibili
   - RULE-SET, pikpak_domain,🎞️ PikPak
   - RULE-SET, game,Game
-  - RULE-SET, bybit_domain,🅱️ Bybit
+  - RULE-SET, bybit_domain,CEX
+  - RULE-SET, kraken_domain,CEX
+  - RULE-SET, cex,CEX
   - RULE-SET, ibkr_domain,🚀 Proxies
   - RULE-SET, gfw_domain,🚀 Proxies
   - RULE-SET, cn_domain,🎯 Direct
@@ -137,6 +139,7 @@ rule-providers:
   bilibili_intl_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}  
   pikpak_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pikpak.mrs"}  
   bybit_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bybit.mrs"}
+  kraken_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/kraken.mrs"}
   ibkr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ibkr.mrs"}        
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
@@ -146,6 +149,7 @@ rule-providers:
   privatetracker: { <<: *class, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/PrivateTracker/PrivateTracker.list"}
   myRules: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/MyRules.list"}
   game: { <<: *class, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Game/Game.list"}
+  cex: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/CEX.list"}
 
   cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
   google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
