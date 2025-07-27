@@ -10,6 +10,16 @@ proxy-providers:
       interval: 300
     proxy: Direct
 
+  Mitce:
+    url: ""
+    type: http
+    interval: 86400
+    health-check:
+      enable: true
+      url: https://www.gstatic.com/generate_204
+      interval: 300
+    proxy: Direct
+
 # 节点信息
 proxies:
   - {name: Direct, type: direct}
@@ -73,25 +83,25 @@ dns:
     - 223.5.5.5
     - 119.29.29.29
  
-pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: true, filter: "实验性"}
+pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: true, filter: "实验性|HK|SG|JP|TW|KR|US"}
 proxy-groups:
   - {name: 🚀 Proxies, type: select, proxies: [🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true}
   - {name: Binance, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Binance.png"}
   - {name: YouTube, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/YouTube.png"}
   - {name: Apple, type: select, proxies: [🎯 Direct, 🚀 Proxies], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Apple.png"}
   - {name: Steam, type: select, proxies: [🚀 Proxies, 🎯 Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Steam.png"}
-  - {name: Spotify, << : *select, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Spotify.png"}
+  - {name: Spotify, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Spotify.png"}
   - {name: Bilibili, type: select, proxies: [🎯 Direct, 🇨🇳 Taiwan], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bilibili.png"}
   - {name: 🎞️ PikPak, << : *select}
   - {name: Game, type: select, proxies: [🚀 Proxies, 🎯 Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Game.png"}
   - {name: CEX, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bitcoin.png"}
   - {name: 🎯 Direct, type: select, proxies: [Direct, 🚀 Proxies]}
   - {name: 🐟 Others, type: select, proxies: [🚀 Proxies, 🎯 Direct]}
-  - {name: 🇭🇰 HongKong, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(港|香港|HK|(?i)Hong))^((?!(台|日|韩|新|美)).)*$"}
-  - {name: 🇸🇬 Singapore, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(港|台|韩|日|美)).)*$" }
-  - {name: 🇯🇵 Japan, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(日|日本|JP|(?i)Japan))^((?!(港|台|韩|新|美|尼)).)*$" }
-  - {name: 🇨🇳 Taiwan, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(台|台湾|TW|(?i)Taiwan))^((?!(港|日|韩|新|美)).)*$"}
-  - {name: 🇺🇲 UnitedStates, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?=.*(美|美国|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
+  - {name: 🇭🇰 HongKong, type: url-test, include-all: false, use: ["FlowerCloud"], tolerance: 20, interval: 300, filter: "(?=.*(港|HK|香港|(?i)Hong))^((?!(台|日|韩|新|美)).)*$"}
+  - {name: 🇸🇬 Singapore, type: url-test, include-all: false, use: ["FlowerCloud"], tolerance: 20, interval: 300, filter: "(?=.*(新加坡|SG|坡|狮城|Singapore))^((?!(港|台|韩|日|美)).)*$" }
+  - {name: 🇯🇵 Japan, type: url-test, include-all: false, use: ["FlowerCloud"], tolerance: 20, interval: 300, filter: "(?=.*(日|日本|JP|(?i)Japan))^((?!(港|台|韩|新|美|尼)).)*$" }
+  - {name: 🇨🇳 Taiwan, type: url-test, include-all: false, use: ["FlowerCloud"], tolerance: 20, interval: 300, filter: "(?=.*(台|台湾|TW|(?i)Taiwan))^((?!(港|日|韩|新|美)).)*$"}
+  - {name: 🇺🇲 UnitedStates, type: url-test, include-all: false, use: ["FlowerCloud"], tolerance: 20, interval: 300, filter: "(?=.*(美|美国|US|(?i)States|America))^((?!(港|台|日|韩|新)).)*$"}
 
 # 规则匹配
 rules:
