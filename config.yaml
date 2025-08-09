@@ -110,7 +110,6 @@ rules:
   - RULE-SET, bilibili_intl_domain,Bilibili
   - RULE-SET, pikpak_domain,🎞️ PikPak
   - RULE-SET, game,Game
-  - RULE-SET, okx_domain,🚀 Proxies
   - RULE-SET, bybit_domain,CEX
   - RULE-SET, kraken_domain,CEX
   - RULE-SET, cex,CEX
@@ -139,7 +138,6 @@ rule-providers:
   bilibili_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}
   bilibili_intl_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}  
   pikpak_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pikpak.mrs"}  
-  okx_domain: { <<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/okx.mrs"}
   bybit_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bybit.mrs"}
   kraken_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/kraken.mrs"}
   ibkr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ibkr.mrs"}        
