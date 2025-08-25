@@ -83,7 +83,6 @@ proxy-groups:
   - {name: Spotify, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Spotify.png"}
   - {name: Bilibili, type: select, proxies: [🎯 Direct, 🇨🇳 Taiwan], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bilibili.png"}
   - {name: 🎞️ PikPak, << : *select}
-  - {name: Game, type: select, proxies: [🚀 Proxies, 🎯 Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Game.png"}
   - {name: CEX, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Bitcoin.png"}
   - {name: 🎯 Direct, type: select, proxies: [Direct, 🚀 Proxies]}
   - {name: 🐟 Others, type: select, proxies: [🚀 Proxies, 🎯 Direct]}
@@ -106,11 +105,11 @@ rules:
   - RULE-SET, bilibili_domain,Bilibili
   - RULE-SET, bilibili_intl_domain,Bilibili
   - RULE-SET, pikpak_domain,🎞️ PikPak
-  - RULE-SET, game,Game
   - RULE-SET, bybit_domain,CEX
   - RULE-SET, kraken_domain,CEX
   - RULE-SET, ibkr_domain,CEX
   - RULE-SET, cex,CEX
+  - RULE-SET, game,🚀 Proxies
   - RULE-SET, myRules,🚀 Proxies
   - RULE-SET, gfw_domain,🚀 Proxies
   - RULE-SET, google_ip,🚀 Proxies,no-resolve
