@@ -116,6 +116,7 @@ rules:
   - RULE-SET, google_ip,🚀 Proxies,no-resolve
   - RULE-SET, telegram_ip,🚀 Proxies,no-resolve
   - RULE-SET, geolocation-!cn,🚀 Proxies
+  - RULE-SET, zhihu_domain,🎯 Direct
   - RULE-SET, cn_domain,🎯 Direct
   - RULE-SET, cn_ip,🎯 Direct
   - MATCH,🐟 Others
@@ -144,6 +145,7 @@ rule-providers:
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
   geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}  
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
+  zhihu_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/zhihu.mrs"}
 
   myRules: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/MyRules.list"}
   cex: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/CEX.list"}
@@ -153,4 +155,3 @@ rule-providers:
   cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
   google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
-  
