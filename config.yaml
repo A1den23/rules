@@ -55,7 +55,9 @@ dns:
   fake-ip-range: 28.0.0.1/8
   fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - "rule-set:private_domain,cn_domain,zhihu_domain"
+    - "rule-set:private_domain"
+    - "rule-set:cn_domain"
+    - "rule-set:zhihu_domain"
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
     - "time.*.com"
@@ -97,7 +99,6 @@ rules:
   - RULE-SET, steam_cn_domain,🎯 Direct
   - RULE-SET, private_domain,🎯 Direct
   - RULE-SET, binance_domain,Binance
-  - RULE-SET, Hyperliquid,Binance
   - RULE-SET, apple_cn_domain,Apple
   - RULE-SET, apple_domain,Apple
   - RULE-SET, steam_domain,Steam
@@ -110,6 +111,7 @@ rules:
   - RULE-SET, kraken_domain,CEX
   - RULE-SET, ibkr_domain,CEX
   - RULE-SET, cex,CEX
+  - RULE-SET, Hyperliquid,Binance
   - RULE-SET, game,🚀 Proxies
   - RULE-SET, myRules,🚀 Proxies
   - RULE-SET, gfw_domain,🚀 Proxies
