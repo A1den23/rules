@@ -14,7 +14,7 @@ proxy-providers:
 proxies:
   - {name: Direct, type: direct}
 
-# 全局配置 
+# 全局配置
 port: 7890
 socks-port: 7891
 redir-port: 7892
@@ -40,18 +40,13 @@ tun:
   enable: true
   # system/gvisor/mixed
   stack: mixed
-
-  # ✅ 优化：TUN MTU 设置（提升吞吐量）
-  # 标准值：1500，巨型帧：9000
-  # PPPoE 连接推荐值：1400-1492
   mtu: 1400
-
   dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
   auto-detect-interface: true
 
-# DNS模块
+# DNS模块（保持原始配置）
 dns:
   enable: true
   listen: 0.0.0.0:1053
@@ -60,88 +55,26 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 28.0.0.1/8
   fake-ip-filter-mode: blacklist
-
-  # ✅ 优化 1：fake-ip 持久化（防止重启后连接断开）
-  fake-ip-store: true
-  fake-ip-store-path: ./fakeip.db
-
-  # ✅ 优化 2：DNS 缓存（提升解析性能）
-  prefer-h3: false  # 禁用 HTTP/3（兼容性更好）
-  use-system-hosts: true  # 使用系统 hosts 文件
-  cache-algorithm: arc  # 使用 ARC 缓存算法（性能最优）
-
   fake-ip-filter:
-    # 规则集过滤（这些域名返回真实 IP）
     - "rule-set:private_domain"
     - "rule-set:cn_domain"
-    - "rule-set:zhihu_domain"
-    # ✅ 优化 3：LAN 和本地域名
-    - '+.lan'
-    - '+.local'
-    - '+.localdomain'
-    # 系统和网络测试域名
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
     - "time.*.com"
     - "+.market.xiaomi.com"
-    # ✅ 优化 4：添加更多需要真实 IP 的域名
-    - '+.router'  # 路由器管理页面
-    - '+.home'  # 家庭网络
-
-  # ✅ 必需：用于解析 DNS 服务器域名（如 DoH 服务器）
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-
-  # ❌ 已移除：direct-nameserver（用 nameserver-policy 替代）
-  # 保留注释以便对比
-  # direct-nameserver:
-  #   - 223.5.5.5
-  #   - 119.29.29.29
-
-  # ✅ 必需：用于解析代理服务器域名（订阅链接中的节点）
-  # 使用 DoH 避免代理节点域名被污染
+  direct-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
   proxy-server-nameserver:
     - https://223.5.5.5/dns-query
-    - https://119.29.29.29/dns-query
-
-  # ✅ 优化 5：nameserver-policy（更灵活的 DNS 分流）
-  # 根据域名规则集指定不同的 DNS 服务器
-  nameserver-policy:
-    # 国内域名使用国内 DNS（直连，速度快）
-    'geosite:cn':
-      - 223.5.5.5
-      - 119.29.29.29
-    # 国外域名使用 DoH（通过代理查询，防污染）
-    'geosite:geolocation-!cn':
-      - https://223.5.5.5/dns-query
-      - https://119.29.29.29/dns-query
-      - https://1.1.1.1/dns-query  # ✅ 添加 Cloudflare DoH 备用
-    # ✅ 优化 6：添加更多场景的 DNS 分流
-    # CDN 域名（智能选择最优节点）
-    'geosite:cloudflare':
-      - https://1.1.1.1/dns-query
-    'geosite:google':
-      - https://8.8.8.8/dns-query
-    # LAN 和本地域名
-    '+.lan':
-      - 223.5.5.5
-      - 119.29.29.29
-    '+.local':
-      - 223.5.5.5
-      - 119.29.29.29
-    '+.router':
-      - 223.5.5.5
-    # 路由器和网络设备
-    'router.lan':
-      - 223.5.5.5
-
-  # ✅ 必需：兜底 DNS（当 policy 未匹配时使用）
+  # namesever尽量用运营商提供的DNS
   nameserver:
     - 223.5.5.5
     - 119.29.29.29
-    - https://223.5.5.5/dns-query  # ✅ 添加 DoH 备用
- 
+
 pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: true}
 proxy-groups:
   - {name: 🚀 Proxies, type: select, proxies: [🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true}
@@ -185,7 +118,6 @@ rules:
   - RULE-SET, google_ip,🚀 Proxies,no-resolve
   - RULE-SET, telegram_ip,🚀 Proxies,no-resolve
   - RULE-SET, geolocation-!cn,🚀 Proxies
-  - RULE-SET, zhihu_domain,🎯 Direct
   - RULE-SET, cn_domain,🎯 Direct
   - RULE-SET, cn_ip,🎯 Direct
   - MATCH,🐟 Others
@@ -203,18 +135,17 @@ rule-providers:
   steam_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}
   binance_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/binance.mrs"}
   youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
-  spotify_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}  
+  spotify_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}
   bilibili_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}
-  bilibili_intl_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}  
-  pikpak_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pikpak.mrs"}  
+  bilibili_intl_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}
+  pikpak_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pikpak.mrs"}
   bybit_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bybit.mrs"}
   kraken_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/kraken.mrs"}
-  ibkr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ibkr.mrs"}        
+  ibkr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ibkr.mrs"}
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
-  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}  
+  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
-  zhihu_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/zhihu.mrs"}
 
   myRules: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/MyRules.list"}
   cex: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/CEX.list"}
