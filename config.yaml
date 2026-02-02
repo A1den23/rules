@@ -79,6 +79,7 @@ pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: tr
 proxy-groups:
   - {name: 🚀 Proxies, type: select, proxies: [🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true}
   - {name: Binance, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Binance.png"}
+  - {name: Telegram, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Telegram.png"}
   - {name: YouTube, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/YouTube.png"}
   - {name: Apple, type: select, proxies: [🎯 Direct, 🚀 Proxies], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Apple.png"}
   - {name: Steam, type: select, proxies: [🚀 Proxies, 🎯 Direct], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Steam.png"}
@@ -115,8 +116,9 @@ rules:
   - RULE-SET, game,🚀 Proxies
   - RULE-SET, myRules,🚀 Proxies
   - RULE-SET, gfw_domain,🚀 Proxies
+  - RULE-SET, telegram_domain,Telegram
   - RULE-SET, google_ip,🚀 Proxies,no-resolve
-  - RULE-SET, telegram_ip,🚀 Proxies,no-resolve
+  - RULE-SET, telegram_ip,Telegram,no-resolve
   - RULE-SET, geolocation-!cn,🚀 Proxies
   - RULE-SET, cn_domain,🎯 Direct
   - RULE-SET, cn_ip,🎯 Direct
@@ -135,16 +137,17 @@ rule-providers:
   steam_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}
   binance_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/binance.mrs"}
   youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
-  spotify_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}
+  spotify_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}  
   bilibili_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}
-  bilibili_intl_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}
-  pikpak_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pikpak.mrs"}
+  bilibili_intl_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/biliintl.mrs"}  
+  pikpak_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/pikpak.mrs"}  
   bybit_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bybit.mrs"}
   kraken_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/kraken.mrs"}
-  ibkr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ibkr.mrs"}
+  ibkr_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ibkr.mrs"}        
   private_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  telegram_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs"}
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
-  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}
+  geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}  
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
 
   myRules: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/main/MyRules.list"}
