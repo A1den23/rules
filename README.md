@@ -144,17 +144,6 @@ tun:
 - 启用 `respect-rules: true`
 - Fake-IP 过滤包含：`private_domain`、`cn_domain`、微软连通性检测域名等
 
-### `config_mihomo.yaml` 额外增强
-
-- `fake-ip-store: true`
-- `fake-ip-store-path: ./fakeip.db`
-- `cache-algorithm: arc`
-- `use-hosts: true`
-- `prefer-h3: false`
-- `proxy-server-nameserver` 使用双 DoH
-- `nameserver-policy` 针对 `geosite:cn`、`geosite:geolocation-!cn`、`cloudflare`、`google`、`.lan/.local` 等做分流
-- `direct-nameserver-follow-policy: true`
-
 ## 自定义规则维护
 
 你可以直接修改以下文件：
