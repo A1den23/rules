@@ -1,112 +1,19 @@
-# Mihomo 配置文件
+# Mihomo 配置说明
 
-基于 mihomo 内核的代理配置文件，整合了 [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat) 和 [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script) 的规则集。
+本仓库提供一套基于 Mihomo 的规则分流配置，包含两份可直接使用的配置文件：
 
-## 特性
+- `config.yaml`：精简稳定版
+- `config_mihomo.yaml`：增强 DNS 版（更多缓存与策略项）
 
-- 多区域节点自动选择（香港、新加坡、日本、台湾、美国）
-- 针对性服务的专用代理组（Binance、YouTube、Apple、Steam、Spotify、Bilibili、PikPak、CEX）
-- TUN 模式透明代理
-- Fake-IP 模式 DNS 优化
-- 自动订阅更新
-- 自定义规则集支持
+规则源主要来自：
 
-## 配置结构
+- [MetaCubeX/meta-rules-dat](https://github.com/MetaCubeX/meta-rules-dat)
+- [blackmatrix7/ios_rule_script](https://github.com/blackmatrix7/ios_rule_script)
+- [ACL4SSR/ACL4SSR](https://github.com/ACL4SSR/ACL4SSR)
 
-### 端口配置
+## 快速开始
 
-| 端口 | 类型 | 说明 |
-|------|------|------|
-| 7890 | HTTP | HTTP 代理端口 |
-| 7891 | SOCKS | SOCKS5 代理端口 |
-| 7892 | Redir | 转发端口 |
-| 7893 | Mixed | 混合端口（HTTP + SOCKS） |
-| 7894 | TProxy | 透明代理端口 |
-| 1053 | DNS | DNS 监听端口 |
-
-### 代理组
-
-#### 全局代理组
-
-- **🚀 Proxies** - 主代理组，包含所有节点
-- **🎯 Direct** - 直连/代理选择组
-- **🐟 Others** - 默认流量处理组
-
-#### 服务专用代理组
-
-| 代理组 | 说明 | 节点选择 |
-|--------|------|----------|
-| Binance | 币安交易所 | 香港优选 |
-| YouTube | 视频服务 | 多区域选择 |
-| Apple | Apple 服务 | 直连优先 |
-| Steam | Steam 游戏 | 代理优先 |
-| Spotify | 音乐流媒体 | 多区域选择 |
-| Bilibili | B站视频 | 台湾/直连 |
-| 🎞️ PikPak | PikPak 服务 | 跟随全局 |
-| CEX | 加密货币交易所 | 多区域选择 |
-
-#### 区域代理组
-
-- **🇭🇰 HongKong** - 香港节点（延迟容差 20ms）
-- **🇸🇬 Singapore** - 新加坡节点（延迟容差 20ms）
-- **🇯🇵 Japan** - 日本节点（延迟容差 20ms）
-- **🇨🇳 Taiwan** - 台湾节点（延迟容差 20ms）
-- **🇺🇲 UnitedStates** - 美国节点（延迟容差 20ms）
-
-所有区域组每 300 秒进行一次健康检查。
-
-### 规则集
-
-规则集按优先级匹配：
-
-1. **Steam 国内** → 直连
-2. **私有地址** → 直连
-3. **Binance** → Binance 代理组
-4. **Apple** → Apple 代理组
-5. **Steam** → Steam 代理组
-6. **YouTube** → YouTube 代理组
-7. **Spotify** → Spotify 代理组
-8. **Bilibili** → Bilibili 代理组
-9. **PikPak** → PikPak 代理组
-10. **CEX 交易所** → CEX 代理组
-11. **Hyperliquid** → Binance 代理组
-12. **游戏** → Proxies 代理组
-13. **自定义规则** → Proxies 代理组
-14. **GFW 列表** → Proxies 代理组
-15. **非中国地理位置** → Proxies 代理组
-16. **知乎/中国域名/IP** → 直连
-17. **其他** → Others 代理组
-
-### 规则集来源
-
-#### MetaCubeX 规则（MRS 格式）
-
-- `apple_cn_domain` / `apple_domain` - Apple 服务
-- `steam_cn_domain` / `steam_domain` - Steam 服务
-- `binance_domain` - 币安交易所
-- `youtube_domain` - YouTube
-- `spotify_domain` - Spotify
-- `bilibili_domain` / `bilibili_intl_domain` - B站
-- `pikpak_domain` - PikPak
-- `bybit_domain` / `kraken_domain` / `ibkr_domain` - 加密货币交易所
-- `private_domain` - 私有地址
-- `gfw_domain` - GFW 列表
-- `cn_domain` / `zhihu_domain` - 国内域名
-- `geolocation-!cn` - 非中国地理位置
-- `cn_ip` / `google_ip` / `telegram_ip` - IP 规则
-
-#### 自定义规则（TEXT 格式）
-
-- `myRules` - [自定义规则列表](https://github.com/A1den23/rules)
-- `cex` - [CEX 交易所规则](https://github.com/A1den23/rules)
-- `Hyperliquid` - [Hyperliquid 规则](https://github.com/A1den23/rules)
-- `game` - [游戏规则](https://github.com/blackmatrix7/ios_rule_script)
-
-## 使用说明
-
-### 1. 配置订阅链接
-
-编辑 [config.yaml](config.yaml#L4) 第 4 行，替换 `订阅链接` 为你的实际订阅地址：
+1. 编辑订阅地址（两份配置都要改）
 
 ```yaml
 proxy-providers:
@@ -114,158 +21,158 @@ proxy-providers:
     url: "你的订阅链接"
 ```
 
-### 2. 启动 mihomo
+2. 启动 Mihomo
 
 ```bash
-# 使用配置文件启动
 mihomo -f config.yaml
-
-# 或指定工作目录
-mihomo -d /path/to/config -f config.yaml
+# 或
+mihomo -f config_mihomo.yaml
 ```
 
-### 3. 配置系统代理
+3. 配置系统代理
 
-- **HTTP 代理**: `127.0.0.1:7890`
-- **SOCKS5 代理**: `127.0.0.1:7891`
-- **混合代理**: `127.0.0.1:7893`
+- HTTP: `127.0.0.1:7890`
+- SOCKS5: `127.0.0.1:7891`
+- Mixed: `127.0.0.1:7893`
 
-### 4. 启用 TUN 模式
+## 端口与基础参数
 
-TUN 模式已默认启用，配置如下：
+| 项目 | 值 |
+|---|---|
+| HTTP 端口 | `7890` |
+| SOCKS 端口 | `7891` |
+| Redir 端口 | `7892` |
+| Mixed 端口 | `7893` |
+| TProxy 端口 | `7894` |
+| DNS 监听 | `0.0.0.0:1053` |
+| `allow-lan` | `true` |
+| `bind-address` | `*` |
+| `ipv6` | `true` |
+| `log-level` | `warning` |
+| `tcp-concurrent` | `true` |
+| `unified-delay` | `true` |
+
+## TUN 配置
+
+两份配置均默认启用 TUN：
 
 ```yaml
 tun:
   enable: true
-  stack: mixed   # 可选: system/gvisor/mixed
+  stack: mixed
+  mtu: 1400
+  dns-hijack: ["any:53", "tcp://any:53"]
   auto-route: true
   auto-redirect: true
+  auto-detect-interface: true
 ```
 
-启动后需要授予 mihomo 网络权限。
+## 代理组
 
-## DNS 配置
+### 主分组
 
-### DNS 模式
+- `🚀 Proxies`：主代理组
+- `🎯 Direct`：直连优先
+- `🐟 Others`：兜底分流
 
-- **增强模式**: fake-ip
-- **Fake-IP 范围**: 28.0.0.1/8
-- **过滤模式**: blacklist
+### 区域测速组（`url-test`）
 
-### DNS 服务器
+- `🇭🇰 HongKong`
+- `🇸🇬 Singapore`
+- `🇯🇵 Japan`
+- `🇨🇳 Taiwan`
+- `🇺🇲 UnitedStates`
 
-| 类型 | 服务器 | 用途 |
-|------|--------|------|
-| 默认 | 223.5.5.5, 119.29.29.29 | 常规解析 |
-| 直连 | 223.5.5.5, 119.29.29.29 | 国内域名 |
-| 代理 | https://223.5.5.5/dns-query | 通过代理查询 |
+### 业务分组
 
-### Fake-IP 过滤
+- `Binance`
+- `CEX`
+- `Telegram`
+- `YouTube`
+- `AI`
+- `Apple`
+- `Steam`
+- `Spotify`
+- `Bilibili`
+- `🎞️ PikPak`
 
-以下域名不会被 Fake-IP 处理：
+## 规则优先级（按配置顺序）
 
-- 规则集: `private_domain`, `cn_domain`, `zhihu_domain`
-- 微软网络测试: `+.msftconnecttest.com`, `+.msftncsi.com`
-- 时间服务: `time.*.com`
-- 小米服务: `+.market.xiaomi.com`
+1. Steam CN / 私网直连
+2. Binance / Hyperliquid → `Binance`
+3. Bybit / Kraken / IBKR / CEX → `CEX`
+4. Apple / Steam / YouTube / Spotify
+5. Telegram / AI / OpenAI
+6. Bilibili / PikPak
+7. Game / MyRules / GFW / Google IP
+8. Telegram IP → `Telegram`
+9. `geolocation-!cn` → `🚀 Proxies`
+10. `cn_domain` / `cn_ip` → `🎯 Direct`
+11. `MATCH` → `🐟 Others`
 
-## 自定义规则
+## 规则集来源
 
-### 添加个人规则
+### MRS（MetaCubeX）
 
-编辑以下文件或仓库：
+- `apple_cn_domain` / `apple_domain`
+- `steam_cn_domain` / `steam_domain`
+- `binance_domain`
+- `youtube_domain`
+- `spotify_domain`
+- `bilibili_domain` / `bilibili_intl_domain`
+- `pikpak_domain`
+- `bybit_domain` / `kraken_domain` / `ibkr_domain`
+- `telegram_domain` / `openai_domain`
+- `private_domain` / `gfw_domain` / `geolocation-!cn` / `cn_domain`
+- `cn_ip` / `google_ip` / `telegram_ip`
 
-1. **MyRules.list** - 通用自定义规则
-2. **CEX.list** - 加密货币交易所规则
-3. **Hyperliquid.list** - Hyperliquid 专用规则
+### TEXT（第三方与自定义）
 
-规则格式（TEXT）：
+- `myRules`: `MyRules.list`
+- `cex`: `CEX.list`
+- `Hyperliquid`: `Hyperliquid.list`
+- `game`: blackmatrix7 Game 列表
+- `ai`: ACL4SSR AI 列表
 
+## DNS 说明
+
+### 共同点（两份配置）
+
+- `enhanced-mode: fake-ip`
+- `fake-ip-range: 198.18.0.1/16`
+- 国内 DNS：`223.5.5.5` / `119.29.29.29`
+- 启用 `respect-rules: true`
+- Fake-IP 过滤包含：`private_domain`、`cn_domain`、微软连通性检测域名等
+
+### `config_mihomo.yaml` 额外增强
+
+- `fake-ip-store: true`
+- `fake-ip-store-path: ./fakeip.db`
+- `cache-algorithm: arc`
+- `use-hosts: true`
+- `prefer-h3: false`
+- `proxy-server-nameserver` 使用双 DoH
+- `nameserver-policy` 针对 `geosite:cn`、`geosite:geolocation-!cn`、`cloudflare`、`google`、`.lan/.local` 等做分流
+- `direct-nameserver-follow-policy: true`
+
+## 自定义规则维护
+
+你可以直接修改以下文件：
+
+- `MyRules.list`
+- `CEX.list`
+- `Hyperliquid.list`
+
+示例格式：
+
+```text
+DOMAIN,suffix.example.com,🚀 Proxies
+DOMAIN-KEYWORD,keyword,🚀 Proxies
+IP-CIDR,1.2.3.4/32,🚀 Proxies,no-resolve
 ```
-DOMAIN,suffix.example.com,ProxyGroup
-DOMAIN-KEYWORD,keyword,ProxyGroup
-IP-CIDR,1.2.3.4/32,ProxyGroup,no-resolve
-```
 
-### 修改代理组选择
+## 使用建议
 
-在 [rules](config.yaml#L95) 部分修改目标代理组：
-
-```yaml
-- RULE-SET, myRules,🚀 Proxies  # 修改这里的代理组名称
-```
-
-## 配置选项
-
-### 全局选项
-
-- **允许局域网连接**: `allow-lan: true`
-- **绑定地址**: `*` (所有接口)
-- **IPv6**: 关闭
-- **统一延迟**: 启用
-- **TCP 并发**: 启用
-- **日志级别**: warning
-- **进程查找模式**: off
-- **客户端指纹**: chrome
-
-### 保活配置
-
-- **空闲保活**: 600 秒
-- **保活间隔**: 15 秒
-
-### 性能配置
-
-- **TCP 并发**: 启用（提高连接性能）
-- **统一延迟显示**: 启用（更准确的延迟计算）
-
-## 订阅更新
-
-配置文件中的 `proxy-providers` 和 `rule-providers` 会自动更新：
-
-- **订阅链接**: 每 86400 秒（24 小时）更新一次
-- **健康检查**: 每 300 秒（5 分钟）
-- **规则集**: 每 86400 秒（24 小时）更新一次
-
-## 故障排除
-
-### 节点不工作
-
-1. 检查订阅链接是否正确
-2. 查看日志输出：`log-level: info` 或 `debug`
-3. 手动测试节点健康状态
-
-### DNS 解析问题
-
-1. 确保 fake-ip 模式正常工作
-2. 检查 `fake-ip-filter` 是否包含需要直连的域名
-3. 尝试切换 DNS 服务器
-
-### 规则不匹配
-
-1. 检查规则集是否正确加载
-2. 使用 `mihomo -f config.yaml -t` 测试配置
-3. 查看日志中的规则匹配信息
-
-### TUN 模式问题
-
-1. 检查是否授予网络权限
-2. 尝试切换 stack 模式（`system`/`gvisor`/`mixed`）
-3. 确保 `auto-route` 和 `auto-detect-interface` 启用
-
-## 注意事项
-
-1. **订阅链接安全**: 不要在公开场合分享包含真实订阅链接的配置文件
-2. **定期更新**: 规则集会自动更新，也可手动重启触发更新
-3. **资源占用**: Fake-IP 模式会占用少量内存，性能更优
-4. **平台兼容**: 本配置适用于 mihomo 内核（Clash Meta）
-
-## 参考资源
-
-- [Mihomo 官方文档](https://wiki.metacubex.one/)
-- [MetaCubeX 规则集](https://github.com/MetaCubeX/meta-rules-dat)
-- [Clash 规则示例](https://github.com/blackmatrix7/ios_rule_script)
-- [自定义规则仓库](https://github.com/A1den23/rules)
-
-## 许可证
-
-本配置文件仅供个人学习研究使用。
+- 日常使用优先 `config.yaml`（更简洁）。
+- 需要更细 DNS 策略时使用 `config_mihomo.yaml`。
+- 若客户端支持配置热更新，建议将订阅更新周期与规则更新周期都保持为 `86400`（当前配置已设置）。
