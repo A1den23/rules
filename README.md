@@ -134,8 +134,6 @@ tun:
 - `game`: blackmatrix7 Game 列表
 - `ai`: ACL4SSR AI 列表
 
-## DNS 说明
-
 ### 共同点（两份配置）
 
 - `enhanced-mode: fake-ip`
