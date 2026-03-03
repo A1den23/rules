@@ -154,6 +154,8 @@ proxy-groups:
 
 # 规则匹配
 rules:
+  - DST-PORT,22,🎯 Direct
+  - DST-PORT,443,🎯 Direct
   - RULE-SET, steam_cn_domain,🎯 Direct
   - RULE-SET, private_domain,🎯 Direct
   - RULE-SET, binance_domain,Binance
