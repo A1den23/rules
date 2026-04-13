@@ -158,8 +158,8 @@ rules:
   - RULE-SET, steam_cn_domain,🎯 Direct
   - RULE-SET, private_domain,🎯 Direct
   - RULE-SET, binance,Binance
+  - RULE-SET, bybit_domain,Binance
   - RULE-SET, crypto,Crypto
-  - RULE-SET, bybit_domain,Crypto
   - RULE-SET, kraken_domain,CEX
   - RULE-SET, ibkr_domain,CEX
   - RULE-SET, cex,CEX
