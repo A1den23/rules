@@ -79,6 +79,7 @@ pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: tr
 proxy-groups:
   - {name: 🚀 Proxies, type: select, proxies: [🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true}
   - {name: Binance, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Binance.png"}
+  - {name: Crypto, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Crypto.png"}
   - {name: Telegram, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/Telegram.png"}
   - {name: YouTube, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/YouTube.png"}
   - {name: AI, type: select, proxies: [🚀 Proxies, 🇭🇰 HongKong, 🇸🇬 Singapore, 🇯🇵 Japan, 🇨🇳 Taiwan, 🇺🇲 UnitedStates], include-all: true, icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Large/AI.png"}
@@ -100,12 +101,12 @@ proxy-groups:
 rules:
   - RULE-SET, steam_cn_domain,🎯 Direct
   - RULE-SET, private_domain,🎯 Direct
-  - RULE-SET, binance_domain,Binance
-  - RULE-SET, Hyperliquid,Binance
-  - RULE-SET, bybit_domain,CEX
+  - RULE-SET, binance,Binance
+  - RULE-SET, crypto,Crypto
+  - RULE-SET, bybit_domain,Crypto
   - RULE-SET, kraken_domain,CEX
   - RULE-SET, ibkr_domain,CEX
-  - RULE-SET, cex,CEX  
+  - RULE-SET, cex,CEX
   - RULE-SET, apple_cn_domain,Apple
   - RULE-SET, apple_domain,Apple
   - RULE-SET, steam_domain,Steam
@@ -139,7 +140,6 @@ rule-providers:
   apple_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
   steam_cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}
   steam_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}
-  binance_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/binance.mrs"}
   youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   spotify_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}  
   bilibili_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}
@@ -156,8 +156,9 @@ rule-providers:
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
 
   myRules: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/refs/heads/main/MyRules.list"}
+  binance: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/refs/heads/main/Binance.list"}
   cex: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/refs/heads/main/CEX.list"}
-  Hyperliquid: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/refs/heads/main/Hyperliquid.list"}
+  crypto: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/refs/heads/main/Crypto.list"}
   game: { <<: *class, url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Game/Game.list"}
   ai: { <<: *class, url: "https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/refs/heads/master/Clash/Ruleset/AI.list"}
 
