@@ -83,8 +83,8 @@ dns:
 
   # 使用 DoH 避免代理节点域名被污染
   proxy-server-nameserver:
-    - https://223.5.5.5/dns-query
-    - https://119.29.29.29/dns-query
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
 
   # 根据域名规则集指定不同的 DNS 服务器
   nameserver-policy:
@@ -94,9 +94,8 @@ dns:
       - 119.29.29.29
     # 国外域名使用 DoH（通过代理查询，防污染）
     'geosite:geolocation-!cn':
-      - https://223.5.5.5/dns-query
-      - https://119.29.29.29/dns-query
-      - https://1.1.1.1/dns-query 
+      - https://1.1.1.1/dns-query
+      - https://8.8.8.8/dns-query
     # CDN 域名（智能选择最优节点）
     'geosite:cloudflare':
       - https://1.1.1.1/dns-query
@@ -109,8 +108,8 @@ dns:
   direct-nameserver-follow-policy: true
 
   nameserver:
-    - https://223.5.5.5/dns-query
-    - https://119.29.29.29/dns-query
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
     - https://1.1.1.1/dns-query
 
 pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: true}
