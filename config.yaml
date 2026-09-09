@@ -55,25 +55,58 @@ dns:
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
+
+  fake-ip-store: true
+  fake-ip-store-path: ./fakeip.db
+
   fake-ip-filter:
+    # 规则集过滤（这些域名返回真实 IP）
     - "rule-set:private_domain"
     - "rule-set:cn_domain"
+    - '+.lan'
+    - '+.local'
+    - '+.localdomain'
+    # 系统和网络测试域名
     - "+.msftconnecttest.com"
     - "+.msftncsi.com"
     - "time.*.com"
     - "+.market.xiaomi.com"
+    - '+.router'  # 路由器管理页面
+    - '+.home'  # 家庭网络
+
   default-nameserver:
     - 223.5.5.5
     - 119.29.29.29
+  
+  proxy-server-nameserver:
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+    # 根据域名规则集指定不同的 DNS 服务器
+  
+  nameserver-policy:
+    # 国内域名使用国内 DNS（直连，速度快）
+    'geosite:cn':
+      - 223.5.5.5
+      - 119.29.29.29
+    # 国外域名使用 DoH（通过代理查询，防污染）
+    'geosite:geolocation-!cn':
+      - https://1.1.1.1/dns-query
+      - https://8.8.8.8/dns-query
+    # CDN 域名（智能选择最优节点）
+    'geosite:cloudflare':
+      - https://1.1.1.1/dns-query
+    'geosite:google':
+      - https://8.8.8.8/dns-query
+  
   direct-nameserver:
     - 223.5.5.5
     - 119.29.29.29
-  proxy-server-nameserver:
-    - https://223.5.5.5/dns-query
-  # namesever尽量用运营商提供的DNS
+  direct-nameserver-follow-policy: true
+
   nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
+    - https://dns.alidns.com/dns-query
+    - https://doh.pub/dns-query
+    - https://1.1.1.1/dns-query
 
 pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: true}
 proxy-groups:

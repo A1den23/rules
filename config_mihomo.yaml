@@ -85,8 +85,8 @@ dns:
   proxy-server-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-
   # 根据域名规则集指定不同的 DNS 服务器
+  
   nameserver-policy:
     # 国内域名使用国内 DNS（直连，速度快）
     'geosite:cn':
