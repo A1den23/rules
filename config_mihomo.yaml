@@ -96,11 +96,6 @@ dns:
     'geosite:geolocation-!cn':
       - https://1.1.1.1/dns-query
       - https://8.8.8.8/dns-query
-    # CDN 域名（智能选择最优节点）
-    'geosite:cloudflare':
-      - https://1.1.1.1/dns-query
-    'geosite:google':
-      - https://8.8.8.8/dns-query
 
   direct-nameserver:
     - 223.5.5.5
