@@ -147,6 +147,7 @@ proxy-groups:
 # 规则匹配
 rules:
   - AND,((RULE-SET,cn!_domain),(DST-PORT,443),(NETWORK,UDP)),REJECT
+  - RULE-SET, myRules,🚀 Proxies
   - RULE-SET, private_domain,🎯 Direct
   - RULE-SET, private_ip,🎯 Direct,no-resolve
   - RULE-SET, binance,Binance
@@ -170,7 +171,6 @@ rules:
   - RULE-SET, microsoft_cn_domain,🎯 Direct
   - RULE-SET, microsoft_domain,🚀 Proxies
   - RULE-SET, game,🚀 Proxies
-  - RULE-SET, myRules,🚀 Proxies
   - RULE-SET, google_ip,🚀 Proxies
   - RULE-SET, telegram_ip,Telegram
   - RULE-SET, gfw_domain,🚀 Proxies

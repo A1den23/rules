@@ -8,3 +8,7 @@ DOMAIN-SUFFIX,onekey.so
 DOMAIN-KEYWORD,onekey
 DOMAIN-SUFFIX,blockbeats.cn
 DOMAIN-KEYWORD,blockbeats
+DOMAIN-SUFFIX,push.apple.com,
+DOMAIN-SUFFIX,gateway.push.apple.com,
+DOMAIN-SUFFIX,api.push.apple.com,
+DOMAIN-SUFFIX,sandbox.push.apple.com,
