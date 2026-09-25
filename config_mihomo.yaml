@@ -12,20 +12,23 @@ proxy-providers:
 
 # 节点信息
 proxies:
-  - {name: Direct, type: direct}
+  - {name: Direct, type: direct, udp: true}
 
 # 全局配置 
-port: 7890
-socks-port: 7891
-redir-port: 7892
-mixed-port: 7893
-tproxy-port: 7894
+mixed-port: 7890
+authentication:
+  - "user:passwd"
+skip-auth-prefixes:
+  - 127.0.0.0/8
+  - 192.168.0.0/16
+  - 10.0.0.0/16
+
 allow-lan: true
 bind-address: "*"
 ipv6: true
 unified-delay: true
 tcp-concurrent: true
-log-level: warning
+log-level: info
 find-process-mode: 'off'
 keep-alive-idle: 600
 keep-alive-interval: 15
@@ -33,6 +36,12 @@ disable-keep-alive: false
 profile:
   store-selected: true
   store-fake-ip: true
+
+geox-url:
+  mmdb: "https://testingcf.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/country.mmdb"
+ntp:
+  enable: true
+  write-to-system: true
 
 # 入站
 tun:
@@ -45,6 +54,22 @@ tun:
   auto-redirect: true
   auto-detect-interface: true
 
+sniffer:
+  enable: true
+  override-destination: false
+  force-dns-mapping: false
+  parse-pure-ip: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  skip-domain:
+    - "Mijia Cloud"
+    - "+.push.apple.com"
+
 # DNS模块
 dns:
   enable: true
@@ -55,57 +80,47 @@ dns:
   fake-ip-range: 198.18.0.1/16
   fake-ip-filter-mode: blacklist
 
-  fake-ip-store: true
-  fake-ip-store-path: ./fakeip.db
-
-  prefer-h3: false  # 禁用 HTTP/3（兼容性更好）
-  use-hosts: true  # 使用系统 hosts 文件
-  cache-algorithm: arc  # 使用 ARC 缓存算法（性能最优）
+  prefer-h3: false
+  use-hosts: true
+  use-system-hosts: true
+  cache-algorithm: arc
 
   fake-ip-filter:
-    # 规则集过滤（这些域名返回真实 IP）
+    - "rule-set:fakeipfilter_cn"
+    - "rule-set:fakeipfilter_!cn"
     - "rule-set:private_domain"
     - "rule-set:cn_domain"
-    - '+.lan'
-    - '+.local'
-    - '+.localdomain'
-    # 系统和网络测试域名
-    - "+.msftconnecttest.com"
-    - "+.msftncsi.com"
-    - "time.*.com"
-    - "+.market.xiaomi.com"
-    - '+.router'  # 路由器管理页面
-    - '+.home'  # 家庭网络
+    - "rule-set:apple_cn_domain"
+    - "rule-set:steam_cn_domain"
+    - "rule-set:microsoft_cn_domain"
 
   default-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
+    - https://223.5.5.5/dns-query
 
-  # 使用 DoH 避免代理节点域名被污染
   proxy-server-nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-  # 根据域名规则集指定不同的 DNS 服务器
-  
-  nameserver-policy:
-    # 国内域名使用国内 DNS（直连，速度快）
-    'geosite:cn':
-      - 223.5.5.5
-      - 119.29.29.29
-    # 国外域名使用 DoH（通过代理查询，防污染）
-    'geosite:geolocation-!cn':
-      - https://1.1.1.1/dns-query
-      - https://8.8.8.8/dns-query
 
   direct-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
-  direct-nameserver-follow-policy: true
-
-  nameserver:
     - https://dns.alidns.com/dns-query
     - https://doh.pub/dns-query
-    - https://1.1.1.1/dns-query
+
+  nameserver-policy:
+    "rule-set:cn_domain,private_domain,fakeipfilter_cn,steam_cn_domain,microsoft_cn_domain,apple_cn_domain":
+      - https://dns.alidns.com/dns-query#disable-qtype-65=true
+      - https://doh.pub/dns-query#disable-qtype-65=true
+    "rule-set:fakeipfilter_!cn":
+      - https://1.1.1.1/dns-query#🚀 Proxies&disable-qtype-65=true
+      - https://8.8.8.8/dns-query#🚀 Proxies&disable-qtype-65=true
+
+  nameserver:
+    - https://8.8.8.8/dns-query#🚀 Proxies&ecs=223.5.5.0/24
+  fallback:
+    - https://8.8.8.8/dns-query#🚀 Proxies
+  fallback-filter:
+    geoip: true
+    geoip-code: CN
+  direct-nameserver-follow-policy: true
 
 pr: &select {type: select, proxies: [🚀 Proxies, 🎯 Direct], include-all: true}
 proxy-groups:
@@ -131,16 +146,18 @@ proxy-groups:
 
 # 规则匹配
 rules:
-  - RULE-SET, steam_cn_domain,🎯 Direct
+  - AND,((RULE-SET,cn!_domain),(DST-PORT,443),(NETWORK,UDP)),REJECT
   - RULE-SET, private_domain,🎯 Direct
+  - RULE-SET, private_ip,🎯 Direct,no-resolve
   - RULE-SET, binance,Binance
   - RULE-SET, bybit_domain,Binance
   - RULE-SET, crypto,Crypto
   - RULE-SET, kraken_domain,CEX
   - RULE-SET, ibkr_domain,CEX
   - RULE-SET, cex,CEX
-  - RULE-SET, apple_cn_domain,Apple
+  - RULE-SET, apple_cn_domain,🎯 Direct
   - RULE-SET, apple_domain,Apple
+  - RULE-SET, steam_cn_domain,🎯 Direct
   - RULE-SET, steam_domain,Steam
   - RULE-SET, youtube_domain,YouTube
   - RULE-SET, spotify_domain,Spotify
@@ -150,28 +167,37 @@ rules:
   - RULE-SET, bilibili_domain,Bilibili
   - RULE-SET, bilibili_intl_domain,Bilibili
   - RULE-SET, pikpak_domain,🎞️ PikPak
+  - RULE-SET, microsoft_cn_domain,🎯 Direct
+  - RULE-SET, microsoft_domain,🚀 Proxies
   - RULE-SET, game,🚀 Proxies
   - RULE-SET, myRules,🚀 Proxies
+  - RULE-SET, google_ip,🚀 Proxies
+  - RULE-SET, telegram_ip,Telegram
   - RULE-SET, gfw_domain,🚀 Proxies
-  - RULE-SET, google_ip,🚀 Proxies,no-resolve
-  - RULE-SET, telegram_ip,Telegram,no-resolve
+  - RULE-SET, cn!_domain,🚀 Proxies
   - RULE-SET, geolocation-!cn,🚀 Proxies
-  - IP-CIDR,43.163.233.90/32,🎯 Direct,no-resolve
+  - IP-CIDR, 43.128.250.83/32,🎯 Direct,no-resolve
+  - IP-CIDR, 43.155.250.47/32,🎯 Direct,no-resolve
   - RULE-SET, cn_domain,🎯 Direct
   - RULE-SET, cn_ip,🎯 Direct
   - MATCH,🐟 Others
-
+  
 # 规则集
 rule-anchor:
   ip: &ip {type: http, interval: 86400, behavior: ipcidr, format: mrs}
   domain: &domain {type: http, interval: 86400, behavior: domain, format: mrs}
+  domain_text: &domain_text {type: http, interval: 86400, behavior: domain, format: text}
   class: &class {type: http, interval: 86400, behavior: classical, format: text}
 
 rule-providers:
+  fakeipfilter_cn: {<<: *domain_text, url: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/rules/fakeipfilter-cn.list"}
+  fakeipfilter_!cn: {<<: *domain_text, url: "https://raw.githubusercontent.com/qichiyuhub/rule/refs/heads/main/rules/fakeipfilter-!cn.list"}
   apple_cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"}
   apple_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs"}
   steam_cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"}
   steam_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"}
+  microsoft_cn_domain: {<<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/microsoft@cn.mrs"}
+  microsoft_domain: {<<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/microsoft.mrs"}
   youtube_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   spotify_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/spotify.mrs"}  
   bilibili_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/bilibili.mrs"}
@@ -185,6 +211,7 @@ rule-providers:
   openai_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs"}
   gfw_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/gfw.mrs"}
   geolocation-!cn: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"}  
+  cn!_domain: {<<: *domain, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/geolocation-!cn.mrs"}
   cn_domain: { <<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs"}
 
   myRules: { <<: *class, url: "https://raw.githubusercontent.com/A1den23/rules/refs/heads/main/MyRules.list"}
@@ -197,3 +224,4 @@ rule-providers:
   cn_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"}
   google_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"}
   telegram_ip: { <<: *ip, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/telegram.mrs"}
+  private_ip: {<<: *ip, url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/private.mrs"}
